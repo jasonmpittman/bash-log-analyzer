@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 
+import sys
+
 class command():
     def __init__(self, string, integer):
         self.command_string = string
@@ -70,28 +72,29 @@ class command_list():
 
 if __name__ == "__main__":
     #Opens the file
-    file = open("./bash_history")
+    if(len(sys.argv) == 2):
+        file = open(sys.argv[1])
 
-    #Initialize command array
-    godList = command_list()
+        #Initialize command array
+        godList = command_list()
 
-    #Traverses every line of the file
-    line_count = 0
-    for line in file:
-        print("Line count: ", line_count)
-        line_array = line.split()
-
-        if len(line_array) != 0:
-            if line_array[0][0] != '.':
-                if(len(godList.command_array) == 0):
-                    godList.add_value(line_array[0])
-                else:
-                    index = godList.find_value(line_array[0])
-                    if(index >= 0):
-                        godList.increment(index)
-                    else:
+        #Traverses every line of the file
+        line_count = 1
+        for line in file:
+            line_array = line.split()
+            if len(line_array) != 0:
+                if line_array[0][0] != '.':
+                    if(len(godList.command_array) == 0):
                         godList.add_value(line_array[0])
-        line_count += 1
+                    else:
+                        index = godList.find_value(line_array[0])
+                        if(index >= 0):
+                            godList.increment(index)
+                        else:
+                            godList.add_value(line_array[0])
+            line_count += 1
 
-    godList.sort()
-    godList.export()
+        godList.sort()
+        godList.export()
+    else:
+        print("Error! Correct syntax for this program is: ./findCommands.py <file to read>")
