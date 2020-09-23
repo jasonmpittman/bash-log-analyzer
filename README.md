@@ -1,1 +1,2 @@
-## bash-log-analyzer
+# bash-log-analyzer
+The Bash Log Analyzer will take in the default `bash_history` file found most commonly on Linux distributions and generate an output file `output.txt` that contains a list of unique commands and the number of times they appear within the  `bash_history` file.
