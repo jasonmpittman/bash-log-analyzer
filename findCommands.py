@@ -52,10 +52,14 @@ class command_list():
         Precondition: n/A
         Postcondition: Exports the data in the command_array to an output file
     """
-    def export(self):
-        f = open("output.txt", "w+")
+    def export(self, form):
+        if(form == "text"):
+            text = open("output.txt", "w+")
+        elif(form == "csv"):
+            text = open("output.csv", "w+")
+            text.write("Command, Instances\n")
         for value in self.command_array:
-            f.write(value.command_string + ", " + str(value.count) + '\n')
+            text.write(value.command_string + ", " + str(value.count) + '\n')
 
     """
         Precondition: n/A
@@ -72,8 +76,11 @@ class command_list():
 
 if __name__ == "__main__":
     #Opens the file
-    if(len(sys.argv) == 2):
+    if(len(sys.argv) == 3):
         file = open(sys.argv[1])
+        if(sys.argv[2] != "text" or sys.argv[2] != "csv"):
+            print("Error! None supported output type!")
+            exit()
 
         #Initialize command array
         godList = command_list()
@@ -95,6 +102,6 @@ if __name__ == "__main__":
             line_count += 1
 
         godList.sort()
-        godList.export()
+        godList.export(sys.argv[2])
     else:
-        print("Error! Correct syntax for this program is: ./findCommands.py <file to read>")
+        print("Error! Correct syntax for this program is: ./findCommands.py <file to read> <'csv' or 'text'>")
